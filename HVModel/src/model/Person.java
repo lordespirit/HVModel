@@ -21,7 +21,7 @@ public class Person {
 	private String email;
 	private String address;
 	
-	@OneToMany(mappedBy="owner",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+	@OneToMany(mappedBy="owner",cascade={CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval=true)
 	private Set<Mascota> mascotas = new HashSet<Mascota>();
 
 	// SETTERS AND GETTERS 

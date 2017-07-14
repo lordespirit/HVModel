@@ -62,7 +62,7 @@ public interface HVServices {
 	 * Lista todas las personas 
 	 * @return
 	 */
-	public HashSet<Mascota> selectAllPerson(); 
+	public HashSet<Person> selectAllPerson(); 
 	
 	
 	/**

@@ -19,17 +19,12 @@ public class Mascota {
 	private float height;
 	private float length;
 	
-	@ManyToOne(optional=false, cascade={CascadeType.PERSIST,CascadeType.REMOVE}) 
+	@ManyToOne(optional=false, cascade={CascadeType.PERSIST})
 	@JoinColumn(name="persona_id", nullable = false, updatable = true, insertable = true)
 	private Person owner;
 	
 	
 	/* GETTERS AND SETTERS */
-
-
-	public void setPersona(Person person) {
-		this.owner = person;
-	}
 
 	public String getName() {
 		return name;

@@ -26,8 +26,6 @@ public class DBManager {
 		return factory; 
 	}
 	
-	
-
 	public EntityManager getEntityManager() {
 		return entitymanager;
 	}
@@ -42,24 +40,19 @@ public class DBManager {
 		entitymanager.getTransaction().commit(); 
 	}
 
-
 	public void update(Object object) {
 		entitymanager.getTransaction().begin();
 		entitymanager.persist(object);
 		entitymanager.getTransaction().commit();
 	}
 
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Object find(Class clazz , int id)  {
+	public <T> T find(Class<T> clazz , int id)  {
 		entitymanager.getTransaction().begin();
-		Object object=entitymanager.find(clazz, id);
+		T object=entitymanager.find(clazz, id);
 		entitymanager.getTransaction().commit();
 		return object;
 	}
 
-
-	
 	public <T> void deleteAll(Class<T> clazz){
 		entitymanager.getTransaction().begin();
 		ArrayList<T> list = selectAll(clazz);
@@ -69,15 +62,12 @@ public class DBManager {
 		entitymanager.getTransaction().commit();
 	}
 	
-	
-	
 	@SuppressWarnings("unchecked")
 	public <T> ArrayList<T> selectAll(Class<T> clazz){
 		Query query = entitymanager.createQuery("SELECT c FROM "+ clazz.getSimpleName() +" c");		  
 		 return new ArrayList<T>(query.getResultList()); 
 	}
 
-	
 	/**
 	 * SELECT c FROM  Comments c WHERE c.user = 'pepe'   
 	 * SELECT c FROM  Comments c WHERE c.emeil = 'pepe@pepe.com'  

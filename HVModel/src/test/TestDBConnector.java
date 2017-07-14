@@ -49,14 +49,28 @@ public class TestDBConnector {
 		dbConnector.insert(person4,mascota4);
 		
 		dbConnector.connect();
-		ArrayList<Mascota> list  = dbConnector.selectAll(Mascota.class);
+			ArrayList<Mascota> listMascotas  = dbConnector.selectAll(Mascota.class);
+			ArrayList<Person> listPersonas  = dbConnector.selectAll(Person.class);
 		dbConnector.close();
 		
-		Assert.assertEquals(4, list.size());
+		Assert.assertEquals(4, listPersonas.size());
+		Assert.assertEquals(4, listMascotas.size());
 		
-		Assert.assertEquals("Rex", list.get(0).getName());
-		Assert.assertEquals("Jose", list.get(0).getOwner().getName());
-		Assert.assertEquals("Garfield", list.get(1).getName());
+		
+		Assert.assertNotNull(listMascotas.get(0).getOwner());
+		Assert.assertNotNull(listMascotas.get(1).getOwner());
+		Assert.assertNotNull(listMascotas.get(2).getOwner());
+		
+		Assert.assertNotNull(listPersonas.get(0).getMascotas());
+		Assert.assertNotNull(listPersonas.get(1).getMascotas());
+		Assert.assertNotNull(listPersonas.get(2).getMascotas());
+	
+		Assert.assertEquals("Rex", listMascotas.get(0).getName());
+		Assert.assertEquals("Jose", listMascotas.get(0).getOwner().getName());
+		Assert.assertEquals("Garfield", listMascotas.get(1).getName());
+		
+		
+		
 	}
 	
 	@Test
@@ -177,14 +191,27 @@ public class TestDBConnector {
 		dbConnector.insert(person3,mascota3);
 
 		mascota2.setName("SuperGarfield");
+		mascota2.setHeight(10);
+		mascota2.setWeight(8);
+		mascota2.setLength(2); 
+		mascota2.setOwner(null);
+		mascota2.setTypeClass("ave"); 
+		
+		
 		
 			dbConnector.update(mascota2);
 			
 			dbConnector.connect();
-			Mascota mascotaRecovered = dbConnector.find(Mascota.class,mascota2.getId());
+				Mascota mascotaRecovered = dbConnector.find(Mascota.class,mascota2.getId());
 			dbConnector.close();
 			
 		Assert.assertEquals("SuperGarfield", mascotaRecovered.getName());
+		Assert.assertEquals(10, mascotaRecovered.getHeight(),0);
+		Assert.assertEquals(8, mascotaRecovered.getWeight(),0);
+		Assert.assertEquals(2, mascotaRecovered.getLength(),0);
+		Assert.assertEquals("ave", mascotaRecovered.getTypeClass());
+		Assert.assertNotNull(mascotaRecovered.getOwner());
+		
 	}
 	
 	@Test
@@ -259,6 +286,7 @@ public class TestDBConnector {
 		 person.setAddress("Calle falsa 123");
 		 return person;
 	}
+	
 	
 	private	Mascota getMockMascota(String name, String type) {
 		Mascota mascota = new Mascota();

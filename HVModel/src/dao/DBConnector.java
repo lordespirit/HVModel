@@ -13,7 +13,7 @@ public class DBConnector  extends DBManager implements HVServices{
 	@Override
 	public void insert(Person owner, Mascota mascota) {
 
-		if(owner==null||mascota==null){
+		if(owner==null){
 			throw new RuntimeException("No se pueden enviar objectos nulos");
 		}else{
 		
@@ -25,9 +25,11 @@ public class DBConnector  extends DBManager implements HVServices{
 				else
 				    owner = getEntityManager().find(Person.class, owner.getId());
 				
-				owner.getMascotas().add(mascota);
-				mascota.setOwner(owner);
-			
+				if(mascota!=null){
+					owner.getMascotas().add(mascota);
+					mascota.setOwner(owner);
+				}
+				
 			getEntityManager().getTransaction().commit();
 			close();
 		}
@@ -60,7 +62,9 @@ public class DBConnector  extends DBManager implements HVServices{
 	public void update(Person person) {
 		
 		if(person==null){
-			throw new RuntimeException("No se pueden enviar objectos nulos");
+			throw new RuntimeException("No se pueden enviar objectos con valor null");
+		}else if(person.getId()<=0){
+			throw new RuntimeException("No se puede enviar un contacto para update con una ID 0 o menor que 0");
 		}else{
 				connect();
 				Person recovered = find(Person.class, person.getId());

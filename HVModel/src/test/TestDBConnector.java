@@ -2,32 +2,25 @@ package test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import dao.DBAccess;
 import dao.DBConnector;
 import model.Mascota;
 import model.Person;
 
 public class TestDBConnector {
-	DBConnector dbConnector; 
+	DBConnector dbconnector; 
+
 
 	@Before
 	public void init(){
-		dbConnector = new DBConnector(); 	
-		dbConnector.connect();
-		dbConnector.deleteAll(Person.class);
-		dbConnector.close();
-	}
-	
-	@Test
-	public void testSbConection(){	
-		dbConnector.connect();
-		 	Assert.assertNotNull(dbConnector.getEntityManager()); 
-		dbConnector.close();
+		dbconnector = new DBConnector(); 	
+		dbconnector.connect();
+		dbconnector.deleteAll(Person.class);
+		dbconnector.close();
 	}
 	
 	@Test
@@ -43,15 +36,15 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 		Mascota mascota4 = getMockMascota("Ratata", "roedor");
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
-		dbConnector.insert(person4,mascota4);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
+		dbconnector.insert(person4,mascota4);
 		
-		dbConnector.connect();
-			ArrayList<Mascota> listMascotas  = dbConnector.selectAll(Mascota.class);
-			ArrayList<Person> listPersonas  = dbConnector.selectAll(Person.class);
-		dbConnector.close();
+		dbconnector.connect();
+			ArrayList<Mascota> listMascotas  = dbconnector.selectAll(Mascota.class);
+			ArrayList<Person> listPersonas  = dbconnector.selectAll(Person.class);
+		dbconnector.close();
 		
 		Assert.assertEquals(4, listPersonas.size());
 		Assert.assertEquals(4, listMascotas.size());
@@ -86,12 +79,12 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 		Mascota mascota4 = getMockMascota("Ratata", "roedor");
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
-		dbConnector.insert(person4,mascota4);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
+		dbconnector.insert(person4,mascota4);
 		
-		HashSet<Mascota> listaCompleta =  dbConnector.selectAllMascota();
+		HashSet<Mascota> listaCompleta =  dbconnector.selectAllMascota();
 		
 		Assert.assertEquals(4, listaCompleta.size());
 
@@ -109,12 +102,12 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 		Mascota mascota4 = getMockMascota("Ratata", "roedor");
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
-		dbConnector.insert(person2,mascota4);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
+		dbconnector.insert(person2,mascota4);
 		
-		HashSet<Person> listaCompleta =  dbConnector.selectAllPerson();
+		HashSet<Person> listaCompleta =  dbconnector.selectAllPerson();
 		
 		Assert.assertEquals(3, listaCompleta.size());
 	}
@@ -133,12 +126,12 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 		Mascota mascota4 = getMockMascota("Ratata", "roedor");
 				
-			dbConnector.insert(person1,mascota1);
-			dbConnector.insert(person2,mascota2);
-			dbConnector.insert(person3,mascota3);
-			dbConnector.insert(person4,mascota4);
+			dbconnector.insert(person1,mascota1);
+			dbconnector.insert(person2,mascota2);
+			dbconnector.insert(person3,mascota3);
+			dbconnector.insert(person4,mascota4);
 		
-		HashSet<Person> list = dbConnector.findLikeByOwnerName(ownerName);
+		HashSet<Person> list = dbconnector.findLikeByOwnerName(ownerName);
 		
 		Assert.assertEquals(2, list.size());
 			
@@ -158,16 +151,16 @@ public class TestDBConnector {
 		Mascota mascota5 = getMockMascota("Tobby", "canido");		
 		Mascota mascota6 = getMockMascota("Guacamayo", "ave");
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person1,mascota6);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person2,mascota4);
-		dbConnector.insert(person2,mascota5);
-		dbConnector.insert(person3,mascota3);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person1,mascota6);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person2,mascota4);
+		dbconnector.insert(person2,mascota5);
+		dbconnector.insert(person3,mascota3);
 
 		
-		HashSet<Mascota> listaPerson2 =  dbConnector.findMascota(person2.getId());
-		HashSet<Mascota> listaPerson1 =  dbConnector.findMascota(person1.getId());
+		HashSet<Mascota> listaPerson2 =  dbconnector.findMascota(person2.getId());
+		HashSet<Mascota> listaPerson1 =  dbconnector.findMascota(person1.getId());
 		
 		Assert.assertEquals(3, listaPerson2.size());
 		Assert.assertEquals(2, listaPerson1.size());
@@ -186,9 +179,9 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
 
 		mascota2.setName("SuperGarfield");
 		mascota2.setHeight(10);
@@ -199,11 +192,11 @@ public class TestDBConnector {
 		
 		
 		
-			dbConnector.update(mascota2);
+			dbconnector.update(mascota2);
 			
-			dbConnector.connect();
-				Mascota mascotaRecovered = dbConnector.find(Mascota.class,mascota2.getId());
-			dbConnector.close();
+			dbconnector.connect();
+				Mascota mascotaRecovered = dbconnector.find(Mascota.class,mascota2.getId());
+			dbconnector.close();
 			
 		Assert.assertEquals("SuperGarfield", mascotaRecovered.getName());
 		Assert.assertEquals(10, mascotaRecovered.getHeight(),0);
@@ -226,17 +219,17 @@ public class TestDBConnector {
 		Mascota mascota3 = getMockMascota("Piolin", "ave");
 
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
 
 		person3.setName("Marquitos");
 		
-			dbConnector.update(person3);
+			dbconnector.update(person3);
 			
-			dbConnector.connect();
-			Person personRecovered = dbConnector.find(Person.class,person3.getId());
-			dbConnector.close();
+			dbconnector.connect();
+			Person personRecovered = dbconnector.find(Person.class,person3.getId());
+			dbconnector.close();
 			
 		Assert.assertEquals("Marquitos", personRecovered.getName());
 	}
@@ -255,20 +248,20 @@ public class TestDBConnector {
 		Mascota mascota5 = getMockMascota("Tobby", "canido");		
 		Mascota mascota6 = getMockMascota("Guacamayo", "ave");
 		
-		dbConnector.insert(person1,mascota1);
-		dbConnector.insert(person2,mascota2);
-		dbConnector.insert(person3,mascota3);
-		dbConnector.insert(person3,mascota4);
-		dbConnector.insert(person3,mascota5);
-		dbConnector.insert(person3,mascota6);
+		dbconnector.insert(person1,mascota1);
+		dbconnector.insert(person2,mascota2);
+		dbconnector.insert(person3,mascota3);
+		dbconnector.insert(person3,mascota4);
+		dbconnector.insert(person3,mascota5);
+		dbconnector.insert(person3,mascota6);
 
 		
-			dbConnector.remove(person3);
+			dbconnector.remove(person3);
 			
-			dbConnector.connect();
-			ArrayList<Person> allPersons = dbConnector.selectAll(Person.class);
-			ArrayList<Mascota> allMascotas = dbConnector.selectAll(Mascota.class);
-			dbConnector.close();
+			dbconnector.connect();
+			ArrayList<Person> allPersons = dbconnector.selectAll(Person.class);
+			ArrayList<Mascota> allMascotas = dbconnector.selectAll(Mascota.class);
+			dbconnector.close();
 			
 		Assert.assertEquals(2, allPersons.size());
 		Assert.assertEquals(2, allMascotas.size());
